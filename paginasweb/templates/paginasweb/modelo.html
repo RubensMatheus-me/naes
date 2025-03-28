@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {%block title%}
+    <title>Document</title>
+    {%endblock%}
+
+    <link rel="stylesheet" href="{% static 'css/static.css' %}">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+</head>
+<body>
+
+    {% block menu %}
+
+    {% endblock %}
+
+    {% block conteudo %}
+
+    <h4>Olá, mundo!</h4>
+    <p>{{nome}}</p>
+
+    {% endblock %}
+
+    {% block footer %}
+
+    {% endblock %}
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    {%block scripts%}
+
+    {%endblock%}
+</body>
+
+    
+</html>
