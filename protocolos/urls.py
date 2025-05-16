@@ -1,13 +1,13 @@
 # urls.py
 from django.urls import path
-
+from .views import (PaginaInicial)
 from .views import (CategoryCreate, ProductCreate, ReviewCreate, StockCreate, CartCreate, CartProductCreate, OrderCreate, OrderProductCreate, PaymentCreate)
 from .views import (CategoryUpdate, ProductUpdate, ReviewUpdate, StockUpdate, CartUpdate, CartProductUpdate, OrderUpdate, OrderProductUpdate, PaymentUpdate)
 from .views import (CategoryDelete, ProductDelete, ReviewDelete, StockDelete, CartDelete, CartProductDelete, OrderDelete, OrderProductDelete, PaymentDelete)
 from .views import (CategoryList, ProductList, ReviewList, StockList, CartList, CartProductList, OrderList, OrderProductList, PaymentList,)
 
 urlpatterns = [
-
+    path('', PaginaInicial.as_view()),
     path("cadastrar/categoria/", CategoryCreate.as_view(), name="cadastrar-categoria"),
     path("cadastrar/produto/", ProductCreate.as_view(), name="cadastrar-produto"),
     path("cadastrar/avaliacao/", ReviewCreate.as_view(), name="cadastrar-avaliacao"),
