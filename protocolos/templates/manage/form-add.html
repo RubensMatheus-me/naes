@@ -1,0 +1,28 @@
+{% extends "paginasweb/modelos/index.html" %}
+{% load crispy_forms_tags %}
+
+{% block conteudo %}
+
+<div class="container py-5">
+    <h2 class="mb-4 text-center">{{ title }}</h2>
+
+    <div class="fs-5 fw-light text-muted mb-4 text-center">
+        * Campos obrigatórios
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success m-2">Salvar</button>
+                    <a href="javascript:history.back()" class="btn btn-outline-dark m-2">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock conteudo %}

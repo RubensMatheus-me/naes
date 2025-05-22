@@ -1,0 +1,53 @@
+{% extends "paginasweb/modelos/index.html" %}
+{% load static %}
+
+{% block header %}
+<div class="container my-4">
+    <div class="row text-center">
+        <h1 class="display-6 fw-bolder mb-3">
+            <span class="text-gradient d-inline">Categorias</span>
+        </h1>
+    </div>
+    <div class="row justify-content-center mb-3">
+        <div class="col-auto">
+            <a href="{% url 'cadastrar-categoria' %}" class="btn btn-primary me-2">+ Adicionar Categoria</a>
+            <a href="{% url 'manage' %}" class="btn btn-secondary">Voltar</a>
+        </div>
+    </div>
+</div>
+{% endblock header %}
+
+{% block conteudo %}
+<div>
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
+        <tr>
+            <td>{{ object.name }}</td>
+            <td>{{ object.description }}</td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        Opções
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item text-warning fw-bold" href="{% url 'editar-categoria' object.pk %}">Editar</a></li>
+                        <li><a class="dropdown-item link-danger fw-bold" href="{% url 'excluir-categoria' object.pk %}">Excluir</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3">Nenhuma categoria encontrada.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock conteudo %}
