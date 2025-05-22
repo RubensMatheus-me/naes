@@ -1,7 +1,23 @@
-{% extends "paginasweb/modelo.html" %}
+{% extends "paginasweb/modelos/index.html" %}
 {% load static %}
 
-{%block conteudo%}
-<h1>Sobre nós</h1>
+{% block conteudo %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <h1 class="mb-4 fw-bold text-gradient">Sobre o Projeto</h1>
+            <p class="fs-5 text-muted">
+                Esta página foi desenvolvida como parte de um projeto de <strong>desenvolvimento pessoal</strong> em <strong>Python</strong> e <strong>Django</strong>, ministrado pelo 
+                <strong>Instituto Federal do Paraná – Campus Paranavaí</strong>, sob orientação do professor <strong>Rafael Zottesso</strong>.
+            </p>
+            <p class="fs-5 text-muted mt-3">
+                Atualmente, este site funciona como um sistema de <strong>CRUD</strong> de tênis, permitindo cadastrar, editar, listar e excluir produtos.
+            </p>
 
-{% endblock %}
+            <div class="mt-5">
+                <a href="{% url 'inicio' %}" class="btn btn-outline-primary">Voltar à Área Principal</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock conteudo %}
