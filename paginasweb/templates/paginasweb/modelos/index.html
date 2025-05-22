@@ -440,7 +440,7 @@
     </div>
     <nav id="header-nav" class="navbar navbar-expand-lg">
       <div class="container-lg">
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand" href="{% url 'inicio' %}">
           <img src={% static 'images/main-logo.png' %} class="logo" alt="logo">
         </a>
         <button class="navbar-toggler d-flex d-lg-none order-3 border-0 p-1 ms-2" type="button" data-bs-toggle="offcanvas"
@@ -508,7 +508,7 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <a class="nav-link me-5" href="sobre">Sobre nós</a>
+                <a class="nav-link me-5" href="{% url 'sobre' %}">Sobre nós</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link me-5" href="{% url 'manage' %}">Gerenciamento</a>
