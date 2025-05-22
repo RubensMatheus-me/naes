@@ -7,12 +7,16 @@
         <div class="col-lg-8 text-center">
             <h1 class="mb-4 fw-bold text-gradient">Sobre o Projeto</h1>
             <p class="fs-5 text-muted">
-                Esta página foi desenvolvida como parte de um projeto de <strong>desenvolvimento pessoal</strong> em <strong>Python</strong> e <strong>Django</strong>, ministrado pelo 
-                <strong>Instituto Federal do Paraná – Campus Paranavaí</strong>, sob orientação do professor <strong>Rafael Zottesso</strong>.
+                Este site foi desenvolvido como parte de um <strong>projeto de desenvolvimento pessoal</strong> com foco em <strong>venda de tênis</strong>, utilizando as tecnologias <strong>Python</strong> e <strong>Django</strong>.
             </p>
             <p class="fs-5 text-muted mt-3">
-                Atualmente, este site funciona como um sistema de <strong>CRUD</strong> de tênis, permitindo cadastrar, editar, listar e excluir produtos.
+                O projeto foi realizado no <strong>Instituto Federal do Paraná – Campus Paranavaí</strong>, sob a orientação do professor <strong>Rafael Zottesso</strong>.
             </p>
+            <p class="fs-5 text-muted mt-3">
+                A plataforma funciona como um sistema completo de <strong>cadastro e gerenciamento de produtos</strong>, com funcionalidades de <strong>CRUD (Criar, Ler, Atualizar e Deletar)</strong> de tênis. O objetivo é simular um ambiente real de <strong>e-commerce</strong>, focado na organização e visualização de produtos.
+            </p>
+
+            <img src="{% static 'images/diagrama/diagrama.png' %}" alt="Diagrama do Projeto" class="img-fluid rounded shadow mt-4">
 
             <div class="mt-5">
                 <a href="{% url 'inicio' %}" class="btn btn-outline-primary">Voltar à Área Principal</a>
