@@ -7,7 +7,7 @@ from .views import (CategoryDelete, ProductDelete, ReviewDelete, StockDelete, Ca
 from .views import (CategoryList, ProductList, ReviewList, StockList, CartList, CartProductList, OrderList, OrderProductList, PaymentList,)
 
 urlpatterns = [
-    path('', PaginaInicial.as_view()),
+    path('', PaginaInicial.as_view(), name="manage"),
     path("cadastrar/categoria/", CategoryCreate.as_view(), name="cadastrar-categoria"),
     path("cadastrar/produto/", ProductCreate.as_view(), name="cadastrar-produto"),
     path("cadastrar/avaliacao/", ReviewCreate.as_view(), name="cadastrar-avaliacao"),
@@ -41,7 +41,7 @@ urlpatterns = [
     path("listar/categorias/", CategoryList.as_view(), name="listar-categoria"),
     path("listar/produtos/", ProductList.as_view(), name="listar-produto"),
     path("listar/avaliacoes/", ReviewList.as_view(), name="listar-avaliacao"),
-    path("listar/estoques/", StockList.as_view(), name="listar-estoque"),
+    path("listar/estoque/", StockList.as_view(), name="listar-estoque"),
     path("listar/carrinhos/", CartList.as_view(), name="listar-carrinho"),
     path("listar/produtos-no-carrinho/", CartProductList.as_view(), name="listar-produto-carrinho"),
     path("listar/pedidos/", OrderList.as_view(), name="listar-pedido"),

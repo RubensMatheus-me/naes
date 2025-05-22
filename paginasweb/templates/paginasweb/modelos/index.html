@@ -5,7 +5,7 @@
 
 <head>
   {% block title %}
-  <title>Stylish - Shoes Online Store HTML Template</title>
+  <title>NAES</title>
   {% endblock %}
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -381,7 +381,7 @@
     </div>
   </div>
   <!-- Login -->
-
+  {% block header %}
   <header id="header" class="site-header text-black">
     <div class="header-top border-bottom py-2">
       <div class="container-lg">
@@ -485,7 +485,7 @@
                     <a href="index.html" class="dropdown-item">About Us </a>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="index.html">Shop </a>
+                    <a class="dropdown-item" href="../../../../protocolos/templates/manager.html">Shop </a>
                   </li>
                   <li>
                     <a class="dropdown-item" href="index.html">Blog </a>
@@ -511,7 +511,7 @@
                 <a class="nav-link me-5" href="index.html">Shop</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link me-5" href="#">Sale</a>
+                <a class="nav-link me-5" href="{% url 'manage' %}">Gerenciamento</a>
               </li>
             </ul>
           </div>
@@ -544,7 +544,9 @@
       </div>
     </nav>
   </header>
+  {% endblock header %}
 
+  {% block conteudo %}
   <section id="intro" class="position-relative mt-4">
     <div class="container-lg">
       <div class="swiper main-swiper">
@@ -978,8 +980,10 @@
       </div>
     </div>
   </section>
+  {% endblock conteudo %}
 
-  <footer id="footer" class="py-5 border-top">
+{% block footer %}
+<footer id="footer" class="py-5 border-top">
     <div class="container-lg">
       <div class="row">
         <div class="col-lg-2 pb-3">
@@ -1131,6 +1135,7 @@
       </div>
     </div>
   </footer>
+  {% endblock footer %}
   <script src={% static 'js/jquery-1.11.0.min.js' %}></script>
   <script src={% static 'js/plugins.js' %}></script>
   <script src={% static 'js/script.js' %}></script>

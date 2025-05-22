@@ -20,12 +20,20 @@ class Product(models.Model):
     price = models.FloatField()
     size = models.IntegerField()
     color = models.CharField(max_length=50)
-    stock_quantity = models.IntegerField()
+    stock_quantity = models.PositiveIntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     image = models.URLField()
 
+    
+
     def __str__(self):
         return self.name
+
+    def get_stock_quantity(self):
+        stock = getattr(self, 'stock', None)
+        if stock:
+            return stock.quantity
+        return 0
 
 
 class Review(models.Model):
@@ -43,8 +51,8 @@ class Review(models.Model):
 
 
 class Stock(models.Model):
-    product = models.OneToOneField(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='stock')
+    quantity = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.product.name} - {self.quantity}"

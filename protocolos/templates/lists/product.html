@@ -1,0 +1,69 @@
+{% extends "paginasweb/modelos/index.html" %}
+{% load static %}
+
+{% block header %}
+<div class="container my-4">
+    <div class="row align-items-center">
+        <div class="col text-center">
+            <h1 class="display-6 fw-bolder mb-3">
+                <span class="text-gradient d-inline">Produtos</span>
+            </h1>
+        </div>
+    </div>
+    <div class="row justify-content-center mb-3">
+        <div class="col-auto">
+            <a href="{% url 'cadastrar-produto' %}" class="btn btn-primary me-2">+ Adicionar Produto</a>
+            <a href="{% url 'manage' %}" class="btn btn-secondary">Voltar</a>
+        </div>
+    </div>
+</div>
+{% endblock header %}
+
+{% block conteudo %}
+<div>
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Imagem</th>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th>Categoria</th>
+                <th>Estoque</th>
+                <th>Cor</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
+        <tr>
+            <td>
+                {% if object.image %}
+                    <img src="{{ object.image }}" alt="{{ object.name }}" style="width: 80px; height: auto; object-fit: contain;">
+                {% else %}
+                    <span>Sem imagem</span>
+                {% endif %}
+            </td>
+            <td>{{ object.name }}</td>
+            <td>R$ {{ object.price }}</td>
+            <td>{{ object.category.name }}</td>
+            <td>{{ object.stock_quantity }}</td>
+            <td>{{ object.color }}</td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        Opções
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item text-warning fw-bold" href="{% url 'editar-produto' object.pk %}">Editar</a></li>
+                        <li><a class="dropdown-item link-danger fw-bold" href="{% url 'excluir-produto' object.pk %}">Excluir</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7">Nenhum registro encontrado.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock conteudo %}
