@@ -1,6 +1,7 @@
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from .models import (Category, Product, Review, Stock, Cart, CartProduct, Order, OrderProduct, Payment)
 
@@ -13,7 +14,7 @@ class PaginaInicial(TemplateView):
 # Create Views
 # -----------------------------
 
-class CategoryCreate(CreateView):
+class CategoryCreate(LoginRequiredMixin, CreateView):
     template_name = "manage/form-add.html"
     model = Category
     fields = ["name", "description"]
@@ -21,7 +22,7 @@ class CategoryCreate(CreateView):
     extra_context = {"title": "Cadastrar Categoria"}
 
 
-class ProductCreate(CreateView):
+class ProductCreate(LoginRequiredMixin, CreateView):
     template_name = "manage/form-add.html"
     model = Product
     fields = ["name", "description", "price", "size", "color", "category", "image"]
@@ -29,15 +30,22 @@ class ProductCreate(CreateView):
     extra_context = {"title": "Cadastrar Produto"}
 
 
-class ReviewCreate(CreateView):
+class ReviewCreate(LoginRequiredMixin, CreateView):
     template_name = "manage/form-add.html"
     model = Review
-    fields = ["user", "product", "rating", "description"]
+    fields = ["product", "rating", "description"]
     success_url = reverse_lazy("manage")
     extra_context = {"title": "Cadastrar Avaliação"}
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
 
-class StockCreate(CreateView):
+        url = super().form_valid(form)
+
+        return url
+
+
+class StockCreate(LoginRequiredMixin, CreateView):
     template_name = "manage/form-add.html"
     model = Stock
     fields = ["product", "quantity"]
@@ -45,7 +53,7 @@ class StockCreate(CreateView):
     extra_context = {"title": "Cadastrar Estoque"}
 
 
-class CartCreate(CreateView):
+class CartCreate(LoginRequiredMixin, CreateView):
     template_name = "manage/form-add.html"
     model = Cart
     fields = ["user", "total_price"]
@@ -53,7 +61,7 @@ class CartCreate(CreateView):
     extra_context = {"title": "Cadastrar Carrinho"}
 
 
-class CartProductCreate(CreateView):
+class CartProductCreate(LoginRequiredMixin, CreateView):
     template_name = "manage/form-add.html"
     model = CartProduct
     fields = ["cart", "product", "quantity"]
@@ -61,7 +69,7 @@ class CartProductCreate(CreateView):
     extra_context = {"title": "Cadastrar Produto no Carrinho"}
 
 
-class OrderCreate(CreateView):
+class OrderCreate(LoginRequiredMixin, CreateView):
     template_name = "manage/form-add.html"
     model = Order
     fields = ["user", "status", "delivery_address", "total_price"]
@@ -69,7 +77,7 @@ class OrderCreate(CreateView):
     extra_context = {"title": "Cadastrar Pedido"}
 
 
-class OrderProductCreate(CreateView):
+class OrderProductCreate(LoginRequiredMixin, CreateView):
     template_name = "manage/form-add.html"
     model = OrderProduct
     fields = ["order", "product", "quantity"]
@@ -77,7 +85,7 @@ class OrderProductCreate(CreateView):
     extra_context = {"title": "Cadastrar Produto no Pedido"}
 
 
-class PaymentCreate(CreateView):
+class PaymentCreate(LoginRequiredMixin, CreateView):
     template_name = "manage/form-add.html"
     model = Payment
     fields = ["order", "payment_method", "payment_status", "value"]
@@ -89,7 +97,7 @@ class PaymentCreate(CreateView):
 # Update Views
 # -----------------------------
 
-class CategoryUpdate(UpdateView):
+class CategoryUpdate(LoginRequiredMixin, UpdateView):
     template_name = "manage/form-add.html"
     model = Category
     fields = ["name", "description"]
@@ -97,7 +105,7 @@ class CategoryUpdate(UpdateView):
     extra_context = {"title": "Editar Categoria"}
 
 
-class ProductUpdate(UpdateView):
+class ProductUpdate(LoginRequiredMixin, UpdateView):
     template_name = "manage/form-add.html"
     model = Product
     fields = ["name", "description", "price", "size", "color", "category", "image"]
@@ -105,7 +113,7 @@ class ProductUpdate(UpdateView):
     extra_context = {"title": "Editar Produto"}
 
 
-class ReviewUpdate(UpdateView):
+class ReviewUpdate(LoginRequiredMixin, UpdateView):
     template_name = "manage/form-add.html"
     model = Review
     fields = ["user", "product", "rating", "description"]
@@ -113,7 +121,7 @@ class ReviewUpdate(UpdateView):
     extra_context = {"title": "Editar Avaliação"}
 
 
-class StockUpdate(UpdateView):
+class StockUpdate(LoginRequiredMixin, UpdateView):
     template_name = "manage/form-add.html"
     model = Stock
     fields = ["product", "quantity"]
@@ -121,7 +129,7 @@ class StockUpdate(UpdateView):
     extra_context = {"title": "Editar Estoque"}
 
 
-class CartUpdate(UpdateView):
+class CartUpdate(LoginRequiredMixin, UpdateView):
     template_name = "manage/form-add.html"
     model = Cart
     fields = ["user", "total_price"]
@@ -129,7 +137,7 @@ class CartUpdate(UpdateView):
     extra_context = {"title": "Editar Carrinho"}
 
 
-class CartProductUpdate(UpdateView):
+class CartProductUpdate(LoginRequiredMixin, UpdateView):
     template_name = "manage/form-add.html"
     model = CartProduct
     fields = ["cart", "product", "quantity"]
@@ -137,7 +145,7 @@ class CartProductUpdate(UpdateView):
     extra_context = {"title": "Editar Produto do Carrinho"}
 
 
-class OrderUpdate(UpdateView):
+class OrderUpdate(LoginRequiredMixin, UpdateView):
     template_name = "manage/form-add.html"
     model = Order
     fields = ["user", "status", "delivery_address", "total_price"]
@@ -145,7 +153,7 @@ class OrderUpdate(UpdateView):
     extra_context = {"title": "Editar Pedido"}
 
 
-class OrderProductUpdate(UpdateView):
+class OrderProductUpdate(LoginRequiredMixin, UpdateView):
     template_name = "manage/form-add.html"
     model = OrderProduct
     fields = ["order", "product", "quantity"]
@@ -153,7 +161,7 @@ class OrderProductUpdate(UpdateView):
     extra_context = {"title": "Editar Produto do Pedido"}
 
 
-class PaymentUpdate(UpdateView):
+class PaymentUpdate(LoginRequiredMixin, UpdateView):
     template_name = "manage/form-add.html"
     model = Payment
     fields = ["order", "payment_method", "payment_status", "value"]
@@ -165,63 +173,63 @@ class PaymentUpdate(UpdateView):
 # Delete Views
 # -----------------------------
 
-class CategoryDelete(DeleteView):
+class CategoryDelete(LoginRequiredMixin, DeleteView):
     template_name = "manage/form-delete.html"
     model = Category
     success_url = reverse_lazy("manage")
     extra_context = {"title": "Excluir Categoria"}
 
 
-class ProductDelete(DeleteView):
+class ProductDelete(LoginRequiredMixin, DeleteView):
     template_name = "manage/form-delete.html"
     model = Product
     success_url = reverse_lazy("manage")
     extra_context = {"title": "Excluir Produto"}
 
 
-class ReviewDelete(DeleteView):
+class ReviewDelete(LoginRequiredMixin, DeleteView):
     template_name = "manage/form-delete.html"
     model = Review
     success_url = reverse_lazy("manage")
     extra_context = {"title": "Excluir Avaliação"}
 
 
-class StockDelete(DeleteView):
+class StockDelete(LoginRequiredMixin, DeleteView):
     template_name = "manage/form-delete.html"
     model = Stock
     success_url = reverse_lazy("manage")
     extra_context = {"title": "Excluir Estoque"}
 
 
-class CartDelete(DeleteView):
+class CartDelete(LoginRequiredMixin, DeleteView):
     template_name = "manage/form-delete.html"
     model = Cart
     success_url = reverse_lazy("manage")  
     extra_context = {"title": "Excluir Carrinho"}
 
 
-class CartProductDelete(DeleteView):
+class CartProductDelete(LoginRequiredMixin, DeleteView):
     template_name = "manage/form-delete.html"
     model = CartProduct
     success_url = reverse_lazy("manage")
     extra_context = {"title": "Excluir Produto do Carrinho"}
 
 
-class OrderDelete(DeleteView):
+class OrderDelete(LoginRequiredMixin, DeleteView):
     template_name = "manage/form-delete.html"
     model = Order
     success_url = reverse_lazy("manage")
     extra_context = {"title": "Excluir Pedido"}
 
 
-class OrderProductDelete(DeleteView):
+class OrderProductDelete(LoginRequiredMixin, DeleteView):
     template_name = "manage/form-delete.html"
     model = OrderProduct
     success_url = reverse_lazy("manage")
     extra_context = {"title": "Excluir Produto do Pedido"}
 
 
-class PaymentDelete(DeleteView):
+class PaymentDelete(LoginRequiredMixin, DeleteView):
     template_name = "manage/form-delete.html"
     model = Payment
     success_url = reverse_lazy("manage")
@@ -232,46 +240,46 @@ class PaymentDelete(DeleteView):
 # List Views
 # -----------------------------
 
-class CategoryList(ListView):
+class CategoryList(LoginRequiredMixin, ListView):
     template_name = "lists/category.html"
     model = Category
 
 
-class ProductList(ListView):
+class ProductList(LoginRequiredMixin, ListView):
     template_name = "lists/product.html"
     model = Product
 
 
-class ReviewList(ListView):
+class ReviewList(LoginRequiredMixin, ListView):
     template_name = "lists/review.html"
     model = Review
 
 
-class StockList(ListView):
+class StockList(LoginRequiredMixin, ListView):
     template_name = "lists/stock.html"
     model = Stock
 
 
-class CartList(ListView):
+class CartList(LoginRequiredMixin, ListView):
     template_name = "lists/cart.html"
     model = Cart
 
 
-class CartProductList(ListView):
+class CartProductList(LoginRequiredMixin, ListView):
     template_name = "lists/cart_product.html"
     model = CartProduct
 
 
-class OrderList(ListView):
+class OrderList(LoginRequiredMixin, ListView):
     template_name = "lists/order.html"
     model = Order
 
 
-class OrderProductList(ListView):
+class OrderProductList(LoginRequiredMixin, ListView):
     template_name = "lists/order_product.html"
     model = OrderProduct
 
 
-class PaymentList(ListView):
+class PaymentList(LoginRequiredMixin, ListView):
     template_name = "lists/payment.html"
     model = Payment
