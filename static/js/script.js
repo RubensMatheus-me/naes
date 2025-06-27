@@ -171,3 +171,38 @@
   });
 
 })(jQuery);
+
+
+document.getElementById("login-form").addEventListener("submit", function(event) {
+  event.preventDefault();  // Evita o envio normal do formulário
+
+  // Pega a URL de login do atributo data-url
+  const loginUrl = document.getElementById("login-url").getAttribute("data-url");
+
+  // Pega os dados do formulário
+  const formData = new FormData(this);
+
+  // Envia os dados via AJAX para a URL 'login'
+  fetch(loginUrl, {
+    method: "POST",
+    body: formData,
+    headers: {
+      'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value  // CSRF Token necessário
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    // Se o login for bem-sucedido, feche o modal e redirecione
+    if (data.success) {
+      $('#modallogin').modal('hide');  // Fecha o modal
+      window.location.reload();  // Ou redireciona para a página inicial (pode ajustar conforme necessário)
+    } else {
+      // Exibe erros (caso haja)
+      alert("Login failed: " + data.error);
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Something went wrong!');
+  });
+});
