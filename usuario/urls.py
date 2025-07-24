@@ -2,9 +2,9 @@ from django.urls import path, reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 
 urlpatterns = [
-    path("login/", LoginView.as_view(
+    path("/", LoginView.as_view(
         template_name = "manage/form-add.html",
-        extra_context={"titulo": "Autenticação"}, next_page="/"), name="login"),
+        extra_context={"titulo": "Autenticação"}), name="login"),
     
     path("logout/", LogoutView.as_view(), name="logout"),
     
