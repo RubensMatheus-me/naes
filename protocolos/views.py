@@ -7,7 +7,7 @@ from .models import (Category, Product, Review, Stock, Cart, CartProduct, Order,
 
 
 
-class PaginaInicial(TemplateView):
+class PaginaInicial(LoginRequiredMixin, TemplateView):
     template_name = 'manager.html'
 
 # -----------------------------

@@ -353,9 +353,10 @@
           <div class="login-detail">
             <div class="login-form p-0">
               <div class="col-lg-12 mx-auto">
-                <form id="login-form" >
-                  <input type="text" name="username" placeholder="Username or Email Address *" class="mb-3 ps-3 text-input">
-                  <input type="password" name="password" placeholder="Password" class="ps-3 text-input">
+                <form id="login-form" method="post" action="{% url 'login' %}">
+                  {% csrf_token %}
+                  <input type="text" name="username" placeholder="Username or Email Address *" class="mb-3 ps-3 text-input" required>
+                  <input type="password" name="password" placeholder="Password" class="ps-3 text-input" required>
                   <div class="checkbox d-flex justify-content-between mt-4">
                     <p class="checkbox-form">
                       <label class="">
@@ -366,14 +367,13 @@
                       <a href="#">Forgot your password?</a>
                     </p>
                   </div>
-                </form>
               </div>
             </div>
             <div class="modal-footer mt-5 d-flex justify-content-center">
-              <button type="button" class="btn btn-red hvr-sweep-to-right dark-sweep">Login</button>
-              <button type="button"
-                class="btn btn-outline-gray hvr-sweep-to-right dark-sweep">Register</button>
+              <button type="submit" class="btn btn-red hvr-sweep-to-right dark-sweep">Login</button>
+              <button type="button" class="btn btn-outline-gray hvr-sweep-to-right dark-sweep">Register</button>
             </div>
+            </form>
           </div>
         </div>
       </div>
@@ -424,13 +424,21 @@
           <div class="col">
             <ul class="d-flex justify-content-end gap-3 list-unstyled m-0">
               <li>
-                <a href="#">Contact</a>
+                <a href="#" class="text-dark fw-bold" >Contact</a>
               </li>
               <li>
-                <a href="#">Cart</a>
+                <a href="#" class="text-dark fw-bold" >Cart</a>
               </li>
-              <li>
-                <a href="#">Login</a>
+                {% if user.is_authenticated %}
+                <form method="POST" action="{% url 'logout' %}">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-link text-dark fw-bold p-0 m-0" style="text-decoration: none;">
+                    Logout
+                  </button>
+                </form>
+              {% else %}
+                <a href="#" data-bs-toggle="modal" data-bs-target="#modallogin" class= "text-dark fw-bold">Login</a>
+              {% endif %}
               </li>
             </ul>
           </div>
@@ -509,36 +517,46 @@
               <li class="nav-item">
                 <a class="nav-link me-5" href="{% url 'sobre' %}">Sobre nós</a>
               </li>
+              {% if request.user.is_authenticated %}
               <li class="nav-item">
                 <a class="nav-link me-5" href="{% url 'manage' %}">Gerenciamento</a>
               </li>
+              {% endif %}
             </ul>
           </div>
         </div>
         <div class="user-items ps-0 ps-md-5">
-          <ul class="d-flex justify-content-end list-unstyled align-item-center m-0">
-            <li class="pe-3">
-              <a href="login" data-bs-toggle="modal" data-bs-target="#modallogin" class="border-0">
+        <ul class="d-flex justify-content-end list-unstyled align-items-center m-0">
+          <li class="pe-3">
+            {% if user.is_authenticated %}
+              <a href="javascript:void(0)" class="border-0" style="cursor: default;">
                 <svg class="user" width="24" height="24">
                   <use xlink:href="#user"></use>
                 </svg>
               </a>
-            </li>
-            <li class="pe-3">
-              <a href="#" data-bs-toggle="modal" data-bs-target="#modallong" class="border-0">
-                <svg class="shopping-cart" width="24" height="24">
-                  <use xlink:href="#shopping-cart"></use>
+            {% else %}
+              <a href="#" data-bs-toggle="modal" data-bs-target="#modallogin" class="border-0">
+                <svg class="user" width="24" height="24">
+                  <use xlink:href="#user"></use>
                 </svg>
               </a>
-            </li>
-            <li>
-              <a href="#" class="search-item border-0" data-bs-toggle="collapse" data-bs-target="#search-box" aria-label="Toggle navigation">
-                <svg class="search" width="24" height="24">
-                  <use xlink:href="#search"></use>
-                </svg>
-              </a>
-            </li>
-          </ul>
+            {% endif %}
+          </li>
+          <li class="pe-3">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#modallong" class="border-0">
+              <svg class="shopping-cart" width="24" height="24">
+                <use xlink:href="#shopping-cart"></use>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="search-item border-0" data-bs-toggle="collapse" data-bs-target="#search-box" aria-label="Toggle navigation">
+              <svg class="search" width="24" height="24">
+                <use xlink:href="#search"></use>
+              </svg>
+            </a>
+          </li>
+        </ul>
         </div>
       </div>
     </nav>
@@ -1134,10 +1152,13 @@
       </div>
     </div>
   </footer>
+
   {% endblock footer %}
   <script src={% static 'js/jquery-1.11.0.min.js' %}></script>
   <script src={% static 'js/plugins.js' %}></script>
   <script src={% static 'js/script.js' %}></script>
+
+  
 </body>
 
 </html>
