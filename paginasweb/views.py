@@ -17,3 +17,4 @@ class PaginaInicial(TemplateView):
 class SobreView(TemplateView):
     template_name = "paginasweb/sobre.html"
  
+ 
