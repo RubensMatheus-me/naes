@@ -1,5 +1,6 @@
 from django.urls import path, reverse_lazy
 from django.contrib.auth.views import LogoutView, PasswordChangeView, LoginView
+from .views import RegisterView
 
 urlpatterns = [
     path("/", LoginView.as_view(
@@ -12,4 +13,5 @@ urlpatterns = [
         template_name="protocolos/form.html",
         extra_context={"titulo": "Alterar minha senha"}), name="alterar-senha"),
 
+    path("register/", RegisterView.as_view(), name="register")
 ]

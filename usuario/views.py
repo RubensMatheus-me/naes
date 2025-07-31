@@ -2,6 +2,7 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.views import View
+from django.views.generic import TemplateView
 from django.contrib import messages
 from django.contrib.auth.models import User
 
@@ -31,39 +32,28 @@ class LoginView(View):
             messages.error(request, "Usuário ou senha inválidos.")
             return redirect("login")
 
-class RegisterView(View):
+class RegisterView(TemplateView):
     template_name = "manage/form-add.html"
 
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, {"titulo": "Registrar"})
-
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         username = request.POST.get("username")
         email = request.POST.get("email")
-        password = request.POST.get("password")
-        confirmed_password = request.POST.get("confirmedPassword")
+        password1 = request.POST.get("password1")
+        password2 = request.POST.get("password2")
 
-        if not username or not email or not password or not confirmed_password:
-            messages.error(request, "Todos os campos são obrigatórios.")
-            return redirect("login")
-
-        if password != confirmed_password:
+        if password1 != password2:
             messages.error(request, "As senhas não coincidem.")
             return redirect("login")
 
-        if len(password) < 6:
-            messages.error(request, "A senha deve ter pelo menos 6 caracteres.")
-            return redirect("login")
-
         if User.objects.filter(username=username).exists():
-            messages.error(request, "Nome de usuário já está em uso.")
+            messages.error(request, "Este nome de usuário já está em uso.")
             return redirect("login")
 
         if User.objects.filter(email=email).exists():
-            messages.error(request, "Email já cadastrado.")
+            messages.error(request, "Este e-mail já está em uso.")
             return redirect("login")
 
-        user = User.objects.create_user(username=username, email=email, password=password)
-        login(request, user)
-        messages.success(request, "Cadastro realizado com sucesso! Você está logado.")
+        user = User.objects.create_user(username=username, email=email, password=password1)
+        login(request, user)  
+        messages.success(request, "Registro realizado com sucesso!")
         return redirect("/")
