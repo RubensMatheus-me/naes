@@ -66,7 +66,7 @@ class Stock(models.Model):
 
 
 class Cart(models.Model):
-    user = models.OneToOneField(User, verbose_name="Usuário", on_delete=models.CASCADE)
+    user = models.OneToOneField(User, verbose_name="Usuário", on_delete=models.CASCADE, related_name='cart')
     total_price = models.FloatField("Preço Total", default=0.0)
 
     def __str__(self):
