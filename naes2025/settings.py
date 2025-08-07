@@ -83,23 +83,23 @@ WSGI_APPLICATION = 'naes2025.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': BASE_DIR / 'db.sqlite3',
-#    }
-#}
-
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",
-        "USER": "",
-        "PASSWORD": "",
-        "HOST": "",
-        "PORT": "",
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+#DATABASES = {
+#    "default": {
+#       "ENGINE": "django.db.backends.postgresql",
+#        "NAME": "postgres",
+#        "USER": "",
+#        "PASSWORD": "",
+#        "HOST": "",
+#        "PORT": "",
+#    }
+#}
 
 
 # Password validation
@@ -138,7 +138,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STATIC_ROOT = 'static_gcloud/'
+STATIC_ROOT = BASE_DIR / 'static_gcloud/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
