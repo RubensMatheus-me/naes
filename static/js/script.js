@@ -85,6 +85,24 @@
       $(".search-box").toggleClass('active');
     });
 
+    $('#modaltoggle').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget);
+    var name = button.data('name');
+    var price = button.data('price');
+    var description = button.data('description');
+    var color = button.data('color');
+    var size = button.data('size');
+    var image = button.data('image');
+
+    var modal = $(this);
+    modal.find('#modal-name').text(name);
+    modal.find('#modal-price').text(price);
+    modal.find('#modal-description').text(description);
+    modal.find('#modal-color').text('Cor: ' + color);
+    modal.find('#modal-size').text('Tamanho: ' + size);
+    modal.find('#modal-image').attr('src', image).attr('alt', name);
+    });
+
     var breakpoint = window.matchMedia('(max-width:61.93rem)');
 
     if (breakpoint.matches === false) {

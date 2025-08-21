@@ -10,6 +10,12 @@ from .models import (Category, Product, Review, Stock, Cart, CartProduct, Order,
 class PaginaInicial(LoginRequiredMixin, TemplateView):
     template_name = 'manager.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['latest_products'] = Product.objects.order_by("-id")[:5]
+        context["latest_orders"] = Order.objects.filter(user=self.request.user).order_by("-date")[:5]
+        return context
+
 # -----------------------------
 # Create Views
 # -----------------------------
