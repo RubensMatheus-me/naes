@@ -5,6 +5,7 @@ from django.views import View
 from django.views.generic import TemplateView
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 
 class LoginView(View):
     template_name = "manage/form-add.html"
@@ -54,6 +55,10 @@ class RegisterView(TemplateView):
             return redirect("login")
 
         user = User.objects.create_user(username=username, email=email, password=password1)
+
+        clients_group, created = Group.objects.get_or_create(name = "Clientes")
+        user.groups.add(clients_group)
+
         login(request, user)  
         messages.success(request, "Registro realizado com sucesso!")
         return redirect("/")

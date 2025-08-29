@@ -2,6 +2,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import Group
 from django.views.generic import TemplateView
 from .models import (Category, Product, Review, Stock, Cart, CartProduct, Order, OrderProduct, Payment)
 
@@ -35,6 +36,17 @@ class ProductCreate(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("manage")
     extra_context = {"title": "Cadastrar Produto"}
 
+    def form_valid(self, form):
+        
+        form.instance.user = self.request.user
+
+        response = super().form_valid(form)
+
+        sellers_group, _ = Group.objects.get_or_create(name = "Vendedores")
+        self.request.user.groups.add(sellers_group)
+
+        return response
+    
 
 class ReviewCreate(LoginRequiredMixin, CreateView):
     template_name = "manage/form-add.html"
