@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
 from django.views.generic import TemplateView
+from django.core.exceptions import PermissionDenied
 from .models import (Category, Product, Review, Stock, Cart, CartProduct, Order, OrderProduct, Payment)
 
 
@@ -130,6 +131,13 @@ class ProductUpdate(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("manage")
     extra_context = {"title": "Editar Produto"}
 
+    def get_object( self, queryset=None):
+        obj = super().get_object(queryset)
+        if (obj.user != self.request.user):
+            raise PermissionDenied("Você não tem permissão para editar este produto.")
+        return obj
+
+ 
 
 class ReviewUpdate(LoginRequiredMixin, UpdateView):
     template_name = "manage/form-add.html"
@@ -138,6 +146,12 @@ class ReviewUpdate(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("manage")
     extra_context = {"title": "Editar Avaliação"}
 
+    def get_queryset(self, queryset=None):
+        obj = super().get_queryset(queryset)
+
+        if(obj.user != self.request.user):
+            raise PermissionDenied("Você não tem permissão para editar esta avaliação.")
+        return obj
 
 class StockUpdate(LoginRequiredMixin, UpdateView):
     template_name = "manage/form-add.html"
@@ -204,6 +218,12 @@ class ProductDelete(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy("manage")
     extra_context = {"title": "Excluir Produto"}
 
+    def get_object(self, queryset = None):
+        obj = super().get_object(queryset)
+        if(obj.user != self.request.user):
+            raise PermissionDenied("Você não tem permissão para excluir este produto.")
+        return obj
+
 
 class ReviewDelete(LoginRequiredMixin, DeleteView):
     template_name = "manage/form-delete.html"
@@ -267,6 +287,9 @@ class ProductList(LoginRequiredMixin, ListView):
     template_name = "lists/product.html"
     model = Product
 
+    def get_queryset(self):
+        return Product.objects.filter(user=self.request.user)
+
 
 class ReviewList(LoginRequiredMixin, ListView):
     template_name = "lists/review.html"
@@ -292,6 +315,8 @@ class OrderList(LoginRequiredMixin, ListView):
     template_name = "lists/order.html"
     model = Order
 
+    def get_queryset(self):
+        return Order.products.filter(user=self.request.user)
 
 class OrderProductList(LoginRequiredMixin, ListView):
     template_name = "lists/order_product.html"

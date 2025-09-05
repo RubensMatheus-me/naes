@@ -16,6 +16,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    user = models.ForeignKey(User, verbose_name="Usuário", on_delete=models.CASCADE)
     name = models.CharField("Nome", max_length=100)
     description = models.TextField("Descrição")
     price = models.FloatField("Preço")
