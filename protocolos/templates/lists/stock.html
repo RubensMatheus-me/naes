@@ -49,5 +49,49 @@
         {% endfor %}
         </tbody>
     </table>
+
+
+    <div class="pagination-container">
+        <nav>
+            <ul class="pagination justify-content-center">
+
+                {% if object_list.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1" aria-label="Primeira Página">Primeira</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ object_list.previous_page_number }}" aria-label="Página Anterior">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">Primeira</span></li>
+                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                {% endif %}
+
+                {% for num in object_list.paginator.page_range %}
+                    {% if object_list.number == num %}
+                        <li class="page-item active" aria-current="page"><span class="page-link">{{ num }}</span></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if object_list.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ object_list.next_page_number }}" aria-label="Próxima Página">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ object_list.paginator.num_pages }}" aria-label="Última Página">Última</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                    <li class="page-item disabled"><span class="page-link">Última</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
 </div>
 {% endblock conteudo %}

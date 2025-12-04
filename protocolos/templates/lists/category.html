@@ -19,6 +19,12 @@
 
 {% block conteudo %}
 <div>
+
+    <form method="get">
+        {{ filter.form.as_p }} 
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+    </form>
+
     <table class="table table-striped align-middle">
         <thead>
             <tr>
@@ -49,5 +55,52 @@
         {% endfor %}
         </tbody>
     </table>
+
+
+    <div class="text-center my-3">
+        <span class="page-link">Página {{ object_list.number }} de {{ object_list.paginator.num_pages }}</span>
+    </div>
+
+<div class="pagination-container">
+    <nav>
+        <ul class="pagination justify-content-center">
+            {% if object_list.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if request.GET %}&{{ request.GET.urlencode }}{% endif %}" aria-label="Primeira Página">Primeira</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ object_list.previous_page_number }}{% if request.GET %}&{{ request.GET.urlencode }}{% endif %}" aria-label="Página Anterior">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">Primeira</span></li>
+                <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+            {% endif %}
+
+            {% for num in object_list.paginator.page_range %}
+                {% if object_list.number == num %}
+                    <li class="page-item active" aria-current="page"><span class="page-link">{{ num }}</span></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}{% if request.GET %}&{{ request.GET.urlencode }}{% endif %}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if object_list.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ object_list.next_page_number }}{% if request.GET %}&{{ request.GET.urlencode }}{% endif %}" aria-label="Próxima Página">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ object_list.paginator.num_pages }}{% if request.GET %}&{{ request.GET.urlencode }}{% endif %}" aria-label="Última Página">Última</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                <li class="page-item disabled"><span class="page-link">Última</span></li>
+            {% endif %}
+        </ul>
+    </nav>
 </div>
+
 {% endblock conteudo %}

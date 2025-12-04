@@ -6,6 +6,7 @@ from django.contrib.auth.models import Group
 from django.views.generic import TemplateView
 from django.core.exceptions import PermissionDenied
 from .models import (Category, Product, Review, Stock, Cart, CartProduct, Order, OrderProduct, Payment)
+from .filters import ProductFilter, CategoryFilter
 
 
 
@@ -281,11 +282,24 @@ class PaymentDelete(LoginRequiredMixin, DeleteView):
 class CategoryList(LoginRequiredMixin, ListView):
     template_name = "lists/category.html"
     model = Category
+    context_object_name = "object_list"
+    filterset_class = CategoryFilter
+    paginate_by = 2
+
+    def get_queryset(self):
+        queryset = Category.objects.all()
+
+        # Aplica os filtros, se houver
+        filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        return filterset.qs
 
 
 class ProductList(LoginRequiredMixin, ListView):
     template_name = "lists/product.html"
     model = Product
+    context_object_name = "object_list"
+    filterset_class = ProductFilter
+    paginate_by = 10
 
     def get_queryset(self):
         return Product.objects.filter(user=self.request.user)
@@ -294,11 +308,15 @@ class ProductList(LoginRequiredMixin, ListView):
 class ReviewList(LoginRequiredMixin, ListView):
     template_name = "lists/review.html"
     model = Review
+    context_object_name = "object_list"
+    paginate_by = 10
 
 
 class StockList(LoginRequiredMixin, ListView):
     template_name = "lists/stock.html"
     model = Stock
+    context_object_name = "object_list"
+    paginate_by = 10
 
 
 class CartList(LoginRequiredMixin, ListView):

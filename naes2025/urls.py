@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('paginasweb.urls')),
     path('manage/', include('protocolos.urls')),
     path('', include("usuario.urls")),
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
 
 
